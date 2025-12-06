@@ -342,8 +342,9 @@
         };
         // ▲▲▲ ここまで ▲▲▲
 
-        function searchRoom() {
-            const number = document.getElementById("inputNumber").value;
+function searchRoom() {
+            // 入力された文字の前後の空白を消し、すべて大文字に変換する
+            const number = document.getElementById("inputNumber").value.trim().toUpperCase();
             const resultDiv = document.getElementById("result");
             
             // 入力が空の場合

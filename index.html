@@ -6,9 +6,33 @@
     <title>教室検索システム</title>
     <style>
         /* ここはデザインの設定です */
-        body { font-family: sans-serif; text-align: center; padding: 20px; background-color: #f0f0f0; }
-        .container { max-width: 400px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        h1 { font-size: 20px; color: #333; }
+/* デザインの設定 */
+body { 
+    font-family: sans-serif; 
+    text-align: center; 
+    padding: 20px; 
+    /* ▼▼▼ 背景色の変更ここから ▼▼▼ */
+    /* Gemini風の淡い青紫〜ピンクのグラデーション */
+    background: linear-gradient(135deg, #e0f7fa 0%, #e1bee7 100%);
+    /* 画面の高さが足りなくても背景が切れないようにする設定 */
+    min-height: 100vh;
+    margin: 0;
+    /* ▼▼▼ ここまで ▼▼▼ */
+}
+
+.container { 
+    max-width: 400px; 
+    margin: 50px auto 0; /* 上に少し隙間を空ける */
+    /* ▼▼▼ 検索ボックスのデザイン変更 ▼▼▼ */
+    /* 背景を少し透けさせる（白の透明度90%） */
+    background: rgba(255, 255, 255, 0.9);
+    /* すりガラスのようなぼかし効果（対応ブラウザのみ） */
+    backdrop-filter: blur(10px);
+    padding: 30px; 
+    border-radius: 15px; /* 角を少し丸く */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1); /* 影を柔らかく広げる */
+    /* ▼▼▼ ここまで ▼▼▼ */
+}        h1 { font-size: 20px; color: #333; }
         input { width: 80%; padding: 15px; font-size: 18px; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 10px; }
         button { width: 90%; padding: 15px; font-size: 18px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; }
         button:hover { opacity: 0.8; }

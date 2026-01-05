@@ -5,162 +5,140 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>教室検索システム</title>
     <style>
-        /* --- 背景アニメーションの設定 --- */
         body { 
-            font-family: sans-serif; 
+            font-family: 'Helvetica Neue', Arial, sans-serif; 
             text-align: center; 
             margin: 0;
-            overflow: hidden; /* 背景が動くのでスクロールバーを隠す */
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            background-color: #f0f4f8; /* ベースの色 */
+            background-color: #f0f8ff;
         }
 
-        /* 動く色の塊（Blob）のコンテナ */
+        /* --- 背景：高速・多色・くっきり設定 --- */
         .bg-wrapper {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1; /* コンテンツの後ろに配置 */
-            background: #e0f7fa;
+            z-index: -1;
             overflow: hidden;
-            filter: blur(80px); /* 強くぼかすことで境界を滑らかにする */
+            filter: blur(20px); 
+            mix-blend-mode: multiply;
         }
 
-        /* 塊のスタイルとアニメーション */
-        .blob {
+        .shape {
             position: absolute;
-            width: 500px;
-            height: 500px;
-            border-radius: 50%;
-            opacity: 0.6;
-            animation: move 20s infinite alternate;
+            opacity: 0.7; 
+            /* アニメーションを linear（等速）に近い加速設定に */
+            animation: move infinite ease-in-out alternate;
         }
 
-        .blob1 { background: #e1bee7; top: -10%; left: -10%; animation-duration: 25s; }
-        .blob2 { background: #bbdefb; bottom: -10%; right: -10%; animation-duration: 30s; animation-delay: -5s; }
-        .blob3 { background: #ffccbc; top: 40%; left: 30%; animation-duration: 20s; animation-delay: -2s; }
+        .circle { border-radius: 50%; }
+        .square { border-radius: 30%; }
+
+        /* --- アニメーションの秒数を大幅に短縮（8s〜12s） --- */
+        .s1 { width: 85vw; height: 85vw; background: #bbdefb; top: -20%; left: -15%; animation-duration: 8s; }
+        .s2 { width: 95vw; height: 95vw; background: #e1bee7; bottom: -30%; right: -25%; animation-duration: 12s; animation-delay: -2s; }
+        .s3 { width: 75vw; height: 75vw; background: #fff59d; top: 20%; right: -15%; animation-duration: 10s; animation-delay: -4s; }
+        .s4 { width: 65vw; height: 65vw; background: #c8e6c9; bottom: -15%; left: -10%; animation-duration: 9s; animation-delay: -1s; }
+        .s5 { width: 55vw; height: 55vw; background: #ffccbc; top: 15%; left: 25%; animation-duration: 7s; animation-delay: -3s; z-index: -1; }
+        .s6 { width: 80vw; height: 80vw; background: #b2ebf2; bottom: 15%; right: 15%; animation-duration: 11s; animation-delay: -5s; z-index: -2; }
 
         @keyframes move {
-            0% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(30vw, 20vh) scale(1.2); }
-            66% { transform: translate(-10vw, 40vh) scale(0.8); }
-            100% { transform: translate(10vw, -10vh) scale(1.1); }
+            0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+            100% { transform: translate(20vw, 15vh) rotate(90deg) scale(1.15); } /* 動きの幅も拡大 */
         }
 
         /* --- 検索ボックスのデザイン --- */
         .container { 
             position: relative;
-            z-index: 1; /* 背景より前に出す */
+            z-index: 1;
             max-width: 400px; 
-            width: 90%;
-            background: rgba(255, 255, 255, 0.7); /* 透け感を強めに */
-            backdrop-filter: blur(15px); /* 背景の動きをほどよく透かす */
-            -webkit-backdrop-filter: blur(15px);
-            padding: 30px; 
-            border-radius: 24px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            border: 1px solid rgba(255,255,255,0.3);
+            width: 85%;
+            background: rgba(255, 255, 255, 0.88); 
+            backdrop-filter: blur(10px);
+            padding: 40px; 
+            border-radius: 28px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            border: 2px solid rgba(255,255,255,0.8);
         }
 
-        h1 { font-size: 20px; color: #444; margin-top: 0; }
-        p { color: #666; font-size: 14px; }
+        h1 { font-size: 20px; color: #222; margin-bottom: 25px; font-weight: 800; }
         
         input { 
             width: 100%; 
-            padding: 15px; 
-            font-size: 18px; 
-            border: 1px solid rgba(0,0,0,0.1); 
-            border-radius: 12px; 
+            padding: 16px; 
+            font-size: 16px; 
+            border: 2px solid rgba(0,0,0,0.1); 
+            border-radius: 14px; 
             margin-bottom: 15px; 
             box-sizing: border-box; 
             outline: none;
+            background: #fff;
         }
         
         button { 
             width: 100%; 
-            padding: 15px; 
+            padding: 16px; 
             font-size: 18px; 
-            background-color: #5d9cec; 
+            background-color: #333; /* 締めるために黒に近い色に */
             color: white; 
             border: none; 
-            border-radius: 12px; 
+            border-radius: 14px; 
             cursor: pointer; 
-            transition: 0.3s;
+            font-weight: bold;
+            transition: 0.2s;
         }
+        button:hover { background-color: #000; transform: scale(1.02); }
         
-        button:hover { background-color: #4a89dc; transform: translateY(-2px); }
-        
-        #result { margin-top: 20px; font-size: 22px; font-weight: bold; min-height: 1.5em; white-space: pre-wrap; }
-        .error { color: #e9573f; }
-        .success { color: #4a89dc; }
+        #result { margin-top: 25px; font-size: 20px; font-weight: bold; min-height: 1.5em; color: #333; }
+        .success strong { color: #007bff; font-size: 32px; display: block; margin-top: 8px; }
     </style>
 </head>
 <body>
 
     <div class="bg-wrapper">
-        <div class="blob blob1"></div>
-        <div class="blob blob2"></div>
-        <div class="blob blob3"></div>
+        <div class="shape circle s1"></div>
+        <div class="shape square s2"></div>
+        <div class="shape circle s3"></div>
+        <div class="shape square s4"></div>
+        <div class="shape circle s5"></div>
+        <div class="shape square s6"></div>
     </div>
 
     <div class="container">
-        <h1>受験番号から教室を検索</h1>
-        <p>受験番号を入力してください</p>
-        <input type="text" id="inputNumber" placeholder="例: A1101B">
+        <h1>受験番号検索</h1>
+        <input type="text" id="inputNumber" placeholder="例：A1101B">
         <button onclick="searchRoom()">検索する</button>
         <div id="result"></div>
     </div>
 
     <script>
-        // データ部分は変更なし
+        // データ（元のデータをここに貼り付けてください）
         const data = {
-            "A1101B": "203", "A1102B": "203", "A1103B": "203", "A1104B": "203",
-            "A1105B": "203", "A1106B": "203", "A1107B": "203", "A1108B": "203",
-            "A1109B": "203", "A1110B": "203", "A1111B": "203", "A1112B": "203",
-            "A1113B": "203", "A1114B": "203", "A1115B": "203", "EA101A": "203",
-            "UA101B": "203", "UA103A": "203", "UA104A": "203", "UA105B": "203",
-            "UA107A": "205", "UA109B": "205", "UA110B": "205", "UA111A": "205",
-            "UA113B": "205", "UA117A": "205", "UA118A": "205", "UA121B": "205",
-            "UA122B": "205", "UA124B": "205", "UA126A": "205", "UA127A": "205",
-            "UA130A": "205", "UA133A": "205", "UA136A": "205", "UA140A": "205",
-            "UA145A": "205", "UA147A": "205", "UA149A": "205", "A3001": "403",
-            "A3002": "403", "A3003": "403", "A3004": "403", "A3005": "403",
-            "A3006": "403", "A3007": "403", "A3008": "403", "A3009": "403",
-            "A3010": "403", "A3011": "403", "A3012": "403", "A3013": "403",
-            "A3014": "403", "A3015": "403", "A3016": "403", "A3017": "403",
-            "A3018": "403", "A3019": "403", "A3020": "403", "A3021": "403",
-            "A3022": "403", "A3023": "405", "A3024": "405", "A3025": "405"
-            // ... (以下略、元のデータは維持)
+            "A1101B": "203", "A3001": "403"
+            // ...全データをここに追加
         };
 
         function searchRoom() {
             const number = document.getElementById("inputNumber").value.trim().toUpperCase();
             const resultDiv = document.getElementById("result");
-            
             if (!number) {
                 resultDiv.innerText = "番号を入力してください";
-                resultDiv.className = "error";
                 return;
             }
-
             if (data[number]) {
-                resultDiv.innerText = "あなたの教室は\n「" + data[number] + "」です";
-                resultDiv.className = "success";
+                resultDiv.innerHTML = "<span style='font-size:14px;'>あなたの教室は</span><strong>" + data[number] + "</strong>";
             } else {
                 resultDiv.innerText = "該当する番号が見つかりません";
-                resultDiv.className = "error";
             }
         }
-
         document.getElementById("inputNumber").addEventListener("keydown", function(event) {
-            if (event.key === "Enter") {
-                searchRoom();
-            }
+            if (event.key === "Enter") { searchRoom(); }
         });
     </script>
 </body>
